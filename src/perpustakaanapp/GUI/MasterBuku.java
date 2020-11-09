@@ -1,0 +1,640 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package perpustakaanapp.GUI;
+
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import perpustakaanapp.Model.BukuModel;
+import perpustakaanapp.Model.KategoriModel;
+
+
+/**
+ *
+ * @author JamiatAbdillah.Net
+ */
+public class MasterBuku extends javax.swing.JFrame {
+
+    DefaultTableModel tabel;
+    BukuModel bm = new BukuModel();
+    List<BukuModel> dataBuku = new ArrayList<>();
+
+    /**
+     * Creates new form MasterBuku
+     */
+    public MasterBuku() {
+        initComponents();
+        bersihText();
+        siapIsi(false);
+        btnTambah.setEnabled(true);
+        btnSimpan.setEnabled(false);
+        btnHapus.setEnabled(false);
+        btnEdit.setEnabled(false);
+        btnKeluar.setEnabled(true);
+        isiKategori();
+        buatTabel();
+        tampilTabel();
+        txtID.setVisible(true);
+        txtIdBuku.setVisible(true);
+    }
+
+    private void bersihText() {
+        txtKode.setText(null);
+        cmbKategori.setSelectedItem(null);
+        txtJudul.setText(null);
+        txtPengarang.setText(null);
+        txtPenerbit.setText(null);
+        txtIsbn.setText(null);
+        txtStok.setText(null);
+    }
+
+    private void siapIsi(boolean x) {
+        txtKode.setEnabled(x);
+        cmbKategori.setEnabled(x);
+        txtJudul.setEnabled(x);
+        txtPengarang.setEnabled(x);
+        txtPenerbit.setEnabled(x);
+        txtIsbn.setEnabled(x);
+        txtStok.setEnabled(x);
+    }
+
+    private void isiKategori() {
+        List<KategoriModel> data = new ArrayList<>();
+        KategoriModel km = new KategoriModel();
+        data = km.tampil();
+        if (data.isEmpty()) {
+            cmbKategori.setSelectedItem(null);
+        } else {
+            for (int a = 0; a < data.size(); a++) {
+                cmbKategori.addItem(data.get(a).getNama());
+            }
+        }
+    }
+
+    private void buatTabel() {
+        tabel = new DefaultTableModel();
+        tabel.addColumn("ID");
+        tabel.addColumn("Kode");
+        tabel.addColumn("Judul");
+        tabel.addColumn("Pengarang");
+        tabel.addColumn("Penerbit");
+        tabel.addColumn("ISBN");
+        tabel.addColumn("Stok");
+        tabel.addColumn("Kategori_Id");
+        tabel.addColumn("Kategori");
+        tblBuku.setModel(tabel);
+        //Untuk mengatur lebar kolom
+        tblBuku.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);                
+        tblBuku.getColumnModel().getColumn(0).setPreferredWidth(0);
+        tblBuku.getColumnModel().getColumn(1).setPreferredWidth(100);        
+        tblBuku.getColumnModel().getColumn(2).setPreferredWidth(200); 
+        tblBuku.getColumnModel().getColumn(3).setPreferredWidth(150); 
+        tblBuku.getColumnModel().getColumn(4).setPreferredWidth(150);
+        tblBuku.getColumnModel().getColumn(5).setPreferredWidth(100);        
+        tblBuku.getColumnModel().getColumn(6).setPreferredWidth(100); 
+        tblBuku.getColumnModel().getColumn(7).setPreferredWidth(0);         
+        tblBuku.getColumnModel().getColumn(8).setPreferredWidth(100);  
+    }
+
+    private void tampilTabel() {
+        tabel.getDataVector().removeAllElements();
+        tabel.fireTableDataChanged();
+        dataBuku.clear();
+        dataBuku = bm.tampil();
+        for (int x = 0; x < dataBuku.size(); x++) {
+            Object[] data = new Object[9];
+            data[0] = dataBuku.get(x).getId();
+            data[1] = dataBuku.get(x).getKode();
+            data[2] = dataBuku.get(x).getJudul();
+            data[3] = dataBuku.get(x).getPengarang();
+            data[4] = dataBuku.get(x).getPenerbit();
+            data[5] = dataBuku.get(x).getIsbn();
+            data[6] = dataBuku.get(x).getStok();
+            data[7] = dataBuku.get(x).getKategori_id();
+            data[8] = dataBuku.get(x).getNama_kategori();
+            tabel.addRow(data);
+        }
+    }
+
+    private void buatKode() {
+        String kd_kategori = cmbKategori.getSelectedItem().toString().substring(0, 3);
+        String penerbit = txtPenerbit.getText().substring(0, 3);
+        String pengarang = txtPengarang.getText().substring(0, 3);
+        String kode;
+        dataBuku.clear();
+        dataBuku = bm.tampil();
+        if (dataBuku.isEmpty()) {
+            kode = kd_kategori + "-" + penerbit + "-" + pengarang + "-1";
+            txtKode.setText(kode);
+        } else {
+            int no_urut = Integer.parseInt(dataBuku.get(0).getKode().substring(12)) + 1;
+            kode = kd_kategori + "-" + penerbit + "-" + pengarang + "-" + no_urut;
+            txtKode.setText(kode);
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        txtID = new javax.swing.JTextField();
+        txtIdBuku = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        btnKeluar = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnHapus = new javax.swing.JButton();
+        btnSimpan = new javax.swing.JButton();
+        btnTambah = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txtKode = new javax.swing.JTextField();
+        cmbKategori = new javax.swing.JComboBox();
+        txtJudul = new javax.swing.JTextField();
+        txtPengarang = new javax.swing.JTextField();
+        txtPenerbit = new javax.swing.JTextField();
+        txtIsbn = new javax.swing.JTextField();
+        txtStok = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblBuku = new javax.swing.JTable();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Data Barang");
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel2.setBackground(new java.awt.Color(0, 204, 255));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("DATA BUKU");
+
+        txtID.setText("jTextField1");
+
+        txtIdBuku.setText("jTextField1");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtIdBuku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(263, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtIdBuku, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        jPanel3.setBackground(new java.awt.Color(0, 204, 255));
+
+        btnKeluar.setText("Keluar");
+        btnKeluar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKeluarActionPerformed(evt);
+            }
+        });
+
+        btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+
+        btnHapus.setText("Hapus");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
+
+        btnSimpan.setText("Simpan");
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
+
+        btnTambah.setText("Tambah");
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnTambah)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSimpan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnHapus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEdit)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnKeluar)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnKeluar)
+                    .addComponent(btnEdit)
+                    .addComponent(btnHapus)
+                    .addComponent(btnSimpan)
+                    .addComponent(btnTambah))
+                .addContainerGap())
+        );
+
+        jLabel3.setLabelFor(txtKode);
+        jLabel3.setText("Kode Buku");
+
+        jLabel4.setText("Judul Buku");
+
+        jLabel5.setText("Pengarang");
+
+        jLabel6.setText("Penerbit");
+
+        jLabel7.setText("ISBN");
+
+        jLabel8.setText("Stok Buku");
+
+        jLabel9.setText("Kategori Buku");
+
+        txtKode.setText("jTextField1");
+
+        cmbKategori.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbKategoriActionPerformed(evt);
+            }
+        });
+
+        txtJudul.setText("jTextField2");
+
+        txtPengarang.setText("jTextField3");
+
+        txtPenerbit.setText("jTextField4");
+
+        txtIsbn.setText("jTextField5");
+        txtIsbn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIsbnKeyTyped(evt);
+            }
+        });
+
+        txtStok.setText("jTextField6");
+        txtStok.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtStokKeyTyped(evt);
+            }
+        });
+
+        tblBuku.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblBuku.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBukuMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblBuku);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtJudul))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtKode, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cmbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtPengarang)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtPenerbit, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel7)
+                        .addGap(47, 47, 47)
+                        .addComponent(txtIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtStok)))
+                .addContainerGap())
+            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel9)
+                    .addComponent(txtKode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbKategori, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtJudul, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtPengarang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addComponent(txtPenerbit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(txtStok, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        setSize(new java.awt.Dimension(567, 512));
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+        // TODO add your handling code here:
+        if (btnTambah.getText().equalsIgnoreCase("tambah")) {
+            btnTambah.setText("Batal");
+            bersihText();
+            siapIsi(true);
+            btnTambah.setEnabled(true);
+            btnSimpan.setEnabled(true);
+            btnHapus.setEnabled(false);
+            btnEdit.setEnabled(false);
+            btnKeluar.setEnabled(false);
+        } else {
+            btnTambah.setText("Tambah");
+            bersihText();
+            siapIsi(false);
+            btnTambah.setEnabled(true);
+            btnSimpan.setEnabled(false);
+            btnHapus.setEnabled(false);
+            btnEdit.setEnabled(false);
+            btnKeluar.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void cmbKategoriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbKategoriActionPerformed
+        // TODO add your handling code here:
+        KategoriModel km = new KategoriModel();
+        List<KategoriModel> data = new ArrayList<>();
+        try {
+            data = km.cariIdKategori(cmbKategori.getSelectedItem().toString());
+            txtID.setText(data.get(0).getId());
+        } catch (Exception x) {
+
+        }
+    }//GEN-LAST:event_cmbKategoriActionPerformed
+
+    private void btnKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKeluarActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btnKeluarActionPerformed
+
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+        // TODO add your handling code here:
+        if (txtID.getText().isEmpty() || txtPenerbit.getText().isEmpty()
+                || txtPengarang.getText().isEmpty() || txtStok.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Lengkapi inputan buku");
+        } else {
+            buatKode();
+            bm.setKode(txtKode.getText());
+            bm.setJudul(txtJudul.getText());
+            bm.setPengarang(txtPengarang.getText());
+            bm.setPenerbit(txtPenerbit.getText());
+            bm.setIsbn(txtIsbn.getText());
+            bm.setStok(txtStok.getText());
+            bm.setKategori_id(txtID.getText());
+            if (btnTambah.getText().equalsIgnoreCase("batal")) {
+                bm.tambah();
+            } else if (btnEdit.getText().equalsIgnoreCase("batal")) {
+                bm.setId(txtIdBuku.getText());
+                bm.edit();
+            }
+            bersihText();
+            siapIsi(false);
+            tampilTabel();
+            btnTambah.setEnabled(true); 
+            btnSimpan.setEnabled(false);
+            btnHapus.setEnabled(false);
+            btnEdit.setEnabled(false);
+            btnKeluar.setEnabled(true);
+            btnTambah.setText("Tambah");
+            btnEdit.setText("Edit");
+        }
+    }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void txtStokKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtStokKeyTyped
+        char c = evt.getKeyChar();
+        if (!((c >= '0') && (c <= '9') && txtStok.getText().length() < 3
+                || (c == KeyEvent.VK_BACK_SPACE)
+                || (c == KeyEvent.VK_DELETE) || (c == KeyEvent.VK_ENTER))) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtStokKeyTyped
+
+    private void txtIsbnKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIsbnKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (!((c >= '0') && (c <= '9') && txtStok.getText().length() < 15
+                || (c == KeyEvent.VK_BACK_SPACE)
+                || (c == KeyEvent.VK_DELETE) || (c == KeyEvent.VK_ENTER))) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtIsbnKeyTyped
+
+    private void tblBukuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBukuMouseClicked
+        // TODO add your handling code here:
+        int baris=tblBuku.getSelectedRow();        
+        txtIdBuku.setText(tblBuku.getModel().getValueAt(baris, 0).toString());         
+        txtKode.setText(tblBuku.getModel().getValueAt(baris, 1).toString());         
+        txtJudul.setText(tblBuku.getModel().getValueAt(baris, 2).toString()); 
+        txtPengarang.setText(tblBuku.getModel().getValueAt(baris, 3).toString());         
+        txtPenerbit.setText(tblBuku.getModel().getValueAt(baris, 4).toString()); 
+        txtIsbn.setText(tblBuku.getModel().getValueAt(baris, 5).toString());         
+        txtStok.setText(tblBuku.getModel().getValueAt(baris, 6).toString()); 
+        txtID.setText(tblBuku.getModel().getValueAt(baris, 7).toString());         
+        cmbKategori.setSelectedItem(tblBuku.getModel().getValueAt(baris, 8).toString());         
+        btnTambah.setText("Tambah");
+        btnEdit.setText("Edit");
+        btnTambah.setEnabled(true);
+        btnSimpan.setEnabled(false);
+        btnHapus.setEnabled(true);
+        btnEdit.setEnabled(true);
+        btnKeluar.setEnabled(true);
+    }//GEN-LAST:event_tblBukuMouseClicked
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        if (btnEdit.getText().equalsIgnoreCase("edit")) {
+            btnEdit.setText("Batal");            
+            siapIsi(true);
+            btnTambah.setEnabled(false);
+            btnSimpan.setEnabled(true);
+            btnHapus.setEnabled(false);
+            btnEdit.setEnabled(true);
+            btnKeluar.setEnabled(false);
+        } else {
+            btnEdit.setText("Edit");
+            bersihText();
+            siapIsi(false);
+            btnTambah.setEnabled(true);
+            btnSimpan.setEnabled(false);
+            btnHapus.setEnabled(false);
+            btnEdit.setEnabled(false);
+            btnKeluar.setEnabled(true);
+        }        
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        // TODO add your handling code here:
+        int baris=tblBuku.getSelectedRow();  
+        bm.setId(tblBuku.getModel().getValueAt(baris, 0).toString());
+        bm.hapus();
+        bersihText();
+        tampilTabel();        
+    }//GEN-LAST:event_btnHapusActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MasterBuku.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MasterBuku.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MasterBuku.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MasterBuku.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MasterBuku().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnHapus;
+    private javax.swing.JButton btnKeluar;
+    private javax.swing.JButton btnSimpan;
+    private javax.swing.JButton btnTambah;
+    private javax.swing.JComboBox cmbKategori;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblBuku;
+    private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtIdBuku;
+    private javax.swing.JTextField txtIsbn;
+    private javax.swing.JTextField txtJudul;
+    private javax.swing.JTextField txtKode;
+    private javax.swing.JTextField txtPenerbit;
+    private javax.swing.JTextField txtPengarang;
+    private javax.swing.JTextField txtStok;
+    // End of variables declaration//GEN-END:variables
+}
+

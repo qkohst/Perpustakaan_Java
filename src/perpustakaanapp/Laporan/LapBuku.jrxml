@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LapBuku" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c6ab8eef-f5d6-4581-81ee-bd0427d605a6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     buku.`id` AS buku_id,
+     buku.`kode` AS buku_kode,
+     buku.`judul` AS buku_judul,
+     buku.`pengarang` AS buku_pengarang,
+     buku.`penerbit` AS buku_penerbit,
+     buku.`isbn` AS buku_isbn,
+     buku.`stok` AS buku_stok,
+     buku.`kategori_id` AS buku_kategori_id,
+     kategori.`id` AS kategori_id,
+     kategori.`nama` AS kategori_nama
+FROM
+     `kategori` kategori INNER JOIN `buku` buku ON kategori.`id` = buku.`kategori_id`]]>
+	</queryString>
+	<field name="buku_id" class="java.lang.Integer"/>
+	<field name="buku_kode" class="java.lang.String"/>
+	<field name="buku_judul" class="java.lang.String"/>
+	<field name="buku_pengarang" class="java.lang.String"/>
+	<field name="buku_penerbit" class="java.lang.String"/>
+	<field name="buku_isbn" class="java.lang.String"/>
+	<field name="buku_stok" class="java.lang.Integer"/>
+	<field name="buku_kategori_id" class="java.lang.Integer"/>
+	<field name="kategori_id" class="java.lang.Integer"/>
+	<field name="kategori_nama" class="java.lang.String"/>
+	<variable name="totalBuku" class="java.lang.Integer" resetType="Group" resetGroup="group_kategori" calculation="Count">
+		<variableExpression><![CDATA[$F{buku_kode}]]></variableExpression>
+	</variable>
+	<group name="group_kategori">
+		<groupExpression><![CDATA[$F{kategori_nama}]]></groupExpression>
+		<groupHeader>
+			<band height="54">
+				<textField>
+					<reportElement uuid="f5cfe9ff-ef41-4b07-80b6-31b0c4ae1ab0" x="85" y="0" width="142" height="20"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{kategori_nama}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="99bedd4e-d9f8-43ab-8fe8-a197837922fb" x="3" y="28" width="45" height="20"/>
+					<textElement/>
+					<text><![CDATA[Kode]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="c1192796-d616-485b-8bd3-c14c643454fe" x="97" y="27" width="100" height="20"/>
+					<textElement/>
+					<text><![CDATA[Judul Buku]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="b82adb5c-e8fc-46be-9bad-979bf0d26a83" x="270" y="28" width="100" height="20"/>
+					<textElement/>
+					<text><![CDATA[Pengarang]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="7782a4db-4e27-4c00-a1da-aa3210469d52" x="429" y="27" width="100" height="20"/>
+					<textElement/>
+					<text><![CDATA[Penerbit]]></text>
+				</staticText>
+				<line>
+					<reportElement uuid="c4f728ba-e23b-4b2b-8b17-2ef49ddab12e" x="1" y="48" width="552" height="1"/>
+				</line>
+				<line>
+					<reportElement uuid="c4f728ba-e23b-4b2b-8b17-2ef49ddab12e" x="3" y="26" width="552" height="1"/>
+				</line>
+				<staticText>
+					<reportElement uuid="f46952e4-92d3-405d-a59a-83544c9515d4" x="3" y="0" width="82" height="20"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Kategori Buku :]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="26">
+				<line>
+					<reportElement uuid="a71cf10f-94b2-4f4a-81bc-080e5fbd8a0e" x="1" y="3" width="551" height="1"/>
+				</line>
+				<textField>
+					<reportElement uuid="980534bd-a978-41a9-a596-ccd60314371f" x="491" y="4" width="60" height="20"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totalBuku}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="f46952e4-92d3-405d-a59a-83544c9515d4" x="427" y="4" width="64" height="20"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Buku :]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="91" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="764c3a8a-e9e8-4bbb-bec5-534ecbc5adc8" x="46" y="0" width="456" height="29"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERPUSTAKAAN DIAN CIPTA CENDIKIA]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="eb17a3cc-9c78-4af5-a466-4ff612b10a73" x="101" y="29" width="346" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="9b35733d-7e20-4a09-9885-9a73bdaa3887" x="101" y="30" width="346" height="20"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Jl. Cut Nyadien No. 65 Palapa Bandar Lampung Telp. 0721-250766]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f46952e4-92d3-405d-a59a-83544c9515d4" x="216" y="63" width="135" height="20"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN BUKU]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="1173f6bc-df27-42c3-9938-b7a7b20f32fc" x="1" y="0" width="89" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{buku_kode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3c4eef8a-0db6-4baa-a52e-93f767e92b14" x="97" y="0" width="171" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{buku_judul}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a3530ae8-caba-41d2-9c09-5fafa277243e" x="268" y="0" width="149" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{buku_pengarang}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="835c3aec-42bf-443c-b0f6-a48a3677ca0f" x="427" y="0" width="125" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{buku_penerbit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="36" splitType="Stretch"/>
+	</summary>
+</jasperReport>
